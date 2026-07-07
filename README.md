@@ -46,19 +46,14 @@ ioc-enrich 185.220.101.34 --stix   # STIX 2.1 bundle
 
 ### Sample output
 
-```text
-185.220.101.34 (ip) — MALICIOUS 78.4/100
+Enriching an IP with all four providers configured (sample data):
 
-┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃ Source        ┃ Status           ┃ Score ┃ Categories            ┃ Detail                        ┃
-┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
-│ VirusTotal    │ ok               │  82.1 │ malware               │ 61/74 engines flagged         │
-│ AbuseIPDB     │ ok               │   100 │ brute-force, ssh      │ 842 reports from 311 users    │
-│ Shodan        │ ok               │     - │ tor                   │ open ports: 22, 443; org: ... │
-│ AlienVault OTX│ ok               │    40 │ tor, scanner          │ appears in 4 pulses           │
-└───────────────┴──────────────────┴───────┴───────────────────────┴───────────────────────────────┘
-first seen 2021-03-14 | last seen 2026-07-01
-```
+![ioc-enrich table output for an IP](docs/img/demo-ip.svg)
+
+Graceful degradation — providers without a key or that don't apply to the IOC
+type are skipped and noted, never fatal:
+
+![ioc-enrich output with missing API keys](docs/img/no-keys.svg)
 
 The unified score is a weighted average of the sources that returned an
 opinionated score; labels: `clean` (< 25), `suspicious` (25–59), `malicious` (≥ 60).
